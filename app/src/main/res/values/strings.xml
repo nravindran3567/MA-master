@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MA</string>
+    <string name="need_a_new_account">Need a new account?</string>
+    <string name="username">username</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="welcome_to_mum_aid">Welcome to Mum Aid</string>
+    <string name="mum_aid">MUM AID</string>
+    <string name="create_account">Create account</string>
+    <string name="signout">SignOut</string>
+    <string name="welcome_to_cocoon">Welcome to Cocoon</string>
+    <string name="logout">LogOut</string>
+</resources>
