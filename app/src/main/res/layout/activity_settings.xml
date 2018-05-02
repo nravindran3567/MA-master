@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="ma.ma.SettingsAct">
+
+    <include
+        android:id="@+id/register_toolbar"
+        layout="@layout/appbar" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/setImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="68dp"
+        android:src="@drawable/defaultavatar" />
+
+    <TextView
+        android:id="@+id/set_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        android:text="Username"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/set_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/hey_there"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/changeImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:text="@string/change_image" />
+
+    <Button
+        android:id="@+id/changeStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/changeImg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:text="Change Status" />
+
+</RelativeLayout>

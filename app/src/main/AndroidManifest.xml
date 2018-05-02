@@ -9,6 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service android:name=".FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity android:name=".MainActivity" />
         <activity android:name=".StartAct">
             <intent-filter>
@@ -18,7 +24,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".Register" />
-        <activity android:name=".Login"></activity>
+        <activity android:name=".Login" />
+        <activity android:name=".SettingsAct" />
+        <activity
+            android:name=".UsersActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".Profile">
+            <intent-filter>
+                <action android:name="ma.ma_NOTIFICATION"></action>
+
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+        </activity>
+        <activity android:name=".Chat"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

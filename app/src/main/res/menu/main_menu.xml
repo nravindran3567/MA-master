@@ -5,4 +5,10 @@
     <item
         android:id="@+id/logout"
         android:title="@string/logout" />
+    <item
+        android:id="@+id/AccountSettings"
+        android:title="Account Settings" />
+    <item
+        android:id="@+id/AllUsers"
+        android:title="All Users" />
 </menu>

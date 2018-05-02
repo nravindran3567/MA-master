@@ -12,10 +12,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class Login extends AppCompatActivity {
 
@@ -25,6 +29,8 @@ public class Login extends AppCompatActivity {
 
     private ProgressDialog logProgress;
     private FirebaseAuth mAuth;
+
+    private DatabaseReference userDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,8 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         logProgress= new ProgressDialog(this);
+
+        userDB = FirebaseDatabase.getInstance().getReference().child("Users");
 
         emailLogin= (EditText) findViewById(R.id.log_email);
         pwLogin = (EditText) findViewById(R.id.log_password);
@@ -63,14 +71,30 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
                             logProgress.dismiss();
-                            Intent mIntent = new Intent(Login.this, MainActivity.class);
-                            startActivity(mIntent);
+
+                            String currentUserID = mAuth.getCurrentUser().getUid();
+                            String devToken = FirebaseInstanceId.getInstance().getToken();
+                            userDB.child(currentUserID).child("device_token").setValue(devToken).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                    Intent mIntent = new Intent(Login.this, MainActivity.class);
+                                    mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(mIntent);
+                                    finish();
+
+                                }
+                            });
+
+
 
                         } else {
                             logProgress.hide();
-                            Toast.makeText(Login.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            String task_result = task.getException().getMessage().toString();
+
+                            Toast.makeText(Login.this, "Error : " + task_result, Toast.LENGTH_LONG).show();
 
                         }
                     }
