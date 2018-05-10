@@ -36,12 +36,12 @@ public class ChatFragment extends Fragment {
     private DatabaseReference msgDB;
     private DatabaseReference uDB;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth fBAuth;
     private String cUID;
     private View mView;
 
     public ChatFragment() {
-        // Required empty public constructor
+        //empty public constructor
     }
 
 
@@ -50,17 +50,18 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_chat, container, false);
+        //deals with the items in the dataset.
         convoList = (RecyclerView) mView.findViewById(R.id.convoList);
-        mAuth = FirebaseAuth.getInstance();
+        fBAuth = FirebaseAuth.getInstance();
 
-        cUID = mAuth.getCurrentUser().getUid();
+        cUID = fBAuth.getCurrentUser().getUid();
         convoDB = FirebaseDatabase.getInstance().getReference().child("Chat").child(cUID);
         convoDB.keepSynced(true);
 
         uDB = FirebaseDatabase.getInstance().getReference().child("Users");
-        msgDB = FirebaseDatabase.getInstance().getReference().child("messages").child(cUID);
+        msgDB = FirebaseDatabase.getInstance().getReference().child("message").child(cUID);
         uDB.keepSynced(true);
-
+        //aligns the layoutmanager to new layout manager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
@@ -82,8 +83,7 @@ public class ChatFragment extends Fragment {
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
-                .child("Users")
-                .limitToLast(50);
+                .child("Users");
 
         FirebaseRecyclerOptions<Convo> options =
                 new FirebaseRecyclerOptions.Builder<Convo>()
@@ -106,7 +106,7 @@ public class ChatFragment extends Fragment {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     //gets the data of the last message and displays it
-                        String data = dataSnapshot.child("messages").getValue().toString();
+                        String data = dataSnapshot.child("message").getValue().toString();
                         //sends the data and if it is seen
                         holder.setMessage(data, model.isSeen());
 
@@ -165,7 +165,7 @@ public class ChatFragment extends Fragment {
             @NonNull
             @Override
             public ConvoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+            //inflate the layout
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.users_s_layout,parent,false);
                 return new ConvoHolder(view);
@@ -189,7 +189,7 @@ public class ChatFragment extends Fragment {
 
         public void setMessage(String data, boolean isSeen) {
 
-            TextView userStatusView = (TextView) mView.findViewById(R.id.user_name);
+            TextView userStatusView = (TextView) mView.findViewById(R.id.user_status);
             userStatusView.setText(data);
 
             if(!isSeen){
@@ -203,19 +203,20 @@ public class ChatFragment extends Fragment {
         }
 
         public void setUserOnline(String userOnline) {
+            //green dot displayed when the user is online
             ImageView userOnlineView = (ImageView) mView.findViewById(R.id.online);
-
+            //if the user is online,
             if(userOnline.equals("true")){
-
+                //set the image to visible
                 userOnlineView.setVisibility(View.VISIBLE);
 
             } else {
-
+                //else, set the image to invisible
                 userOnlineView.setVisibility(View.INVISIBLE);
 
             }
         }
-
+            //setter for the name
         public void setName(String name) {
             TextView userNameView = (TextView) mView.findViewById(R.id.user_name);
             userNameView.setText(name);

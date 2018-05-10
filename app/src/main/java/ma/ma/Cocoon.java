@@ -23,7 +23,7 @@ public class Cocoon extends Application {
     public void onCreate() {
         super.onCreate();
 
-
+        //getting the instance of the firebase object
         mAuth= FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
 

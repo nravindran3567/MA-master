@@ -29,10 +29,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     //list that holds the messages
     private List<Message> mList;
-    private DatabaseReference mUserDatabase;
 
     //use to retrieve user id
-    //private FirebaseAuth mAuth;
+    private FirebaseAuth fbAuth;
 
 
     public MessageAdapter(List<Message> mList) {
@@ -51,14 +50,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     public class MessageViewHolder extends RecyclerView.ViewHolder {
-
+        //variables
         public TextView msg_txt;
         public CircleImageView profilePic;
-        //public TextView displayName;
+
 
         public MessageViewHolder(View view) {
             super(view);
-
+            //layout
             msg_txt = (TextView) view.findViewById(R.id.msg_txt_layout);
             profilePic = (CircleImageView) view.findViewById(R.id.msg_pic_layout);
 
@@ -69,59 +68,35 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull final MessageViewHolder holder, int position) {
 
-
-//        String cUID = mAuth.getInstance().getCurrentUser().getUid();
-//        Log.d("UID", "CUID" + cUID);
-//
-//        Message m = mList.get(position);
-//        //get the from id which is stored in Message - message.class
-//        //get this value as a string
-//        //get the from id stored in the message
-//        String fromU = m.getFrom();
-//        //Log.d("FROMU","FROMU"+cUID);
-//        //if statement for the layout changes
-//        if (fromU.equals(cUID)) {
-//
-//            //setting the background colour and text colour for current user's messages
-//
-//            holder.msg_txt.setBackgroundColor(Color.WHITE);
-//            holder.msg_txt.setTextColor(Color.BLACK);
-//
-//        } else {
-//            //background and text colour for the other user
-//            holder.msg_txt.setBackgroundResource(R.drawable.msg_txt_bg);
-//            holder.msg_txt.setTextColor(Color.BLACK);
-//
-//        }
-//
-//        holder.msg_txt.setText(m.getMessage());
-//    }
+        //instantiating the firebase auth
+        fbAuth = FirebaseAuth.getInstance();
+        //getting the current user's id and storing it in a string
+        String cUID = fbAuth.getCurrentUser().getUid();
+        //get the position of the message in the list and store in c.
         Message c = mList.get(position);
-        String from_user = c.getFrom();
+        //get the sender of the message and store it in a string
+        String fuser = c.getFrom();
+        //get the type of message sent
         String message_type = c.getType();
-
-
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(from_user);
-
-        mUserDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("name").getValue().toString();
-                String image = dataSnapshot.child("thumb_image").getValue().toString();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+            //if the from user is the current user
+        if(fuser.equals(cUID)){
+            //set their textview to dark grey
+            holder.msg_txt.setBackgroundColor(Color.DKGRAY);
+            //and set the message to white
+            holder.msg_txt.setTextColor(Color.WHITE);
+        } else{
+            //whereas if it is the recipient, //
+            // set their textview to the background in the layout
+            holder.msg_txt.setBackgroundResource(R.drawable.msg_txt_bg);
+            //and set the text colour to black
+            holder.msg_txt.setTextColor(Color.BLACK);
+        }
 
         if(message_type.equals("text")) {
             holder.msg_txt.setText(c.getMessage());
         } else {
             holder.msg_txt.setVisibility(View.INVISIBLE);
         }
-
 
     }
 

@@ -24,7 +24,7 @@ import com.google.firebase.database.Query;
 public class UsersActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private RecyclerView usersList;
+    private RecyclerView uList;
     private DatabaseReference mUDB;
     private String TAG = "UsersActivity";
 
@@ -43,15 +43,15 @@ public class UsersActivity extends AppCompatActivity {
         mUDB = FirebaseDatabase.getInstance().getReference().child("Users");
 
 
-        usersList = (RecyclerView) findViewById(R.id.users_list);
+        uList = (RecyclerView) findViewById(R.id.users_list);
         //ensures the size does not change when items are removed or deleted
-        usersList.setHasFixedSize(true);
+        uList.setHasFixedSize(true);
         //the arrangements of the layout is controlled my layoutmanger
         //this creates a new layoutmanager
-        usersList.setLayoutManager(new LinearLayoutManager(this));
+        uList.setLayoutManager(new LinearLayoutManager(this));
     }
 
-
+//https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md
 
     @Override
     protected void onStart() {
@@ -66,7 +66,7 @@ public class UsersActivity extends AppCompatActivity {
                         .setQuery(query, Users.class)
                         .build();
 
-
+        //uses event listener to monitor changes in the query
         final FirebaseRecyclerAdapter<Users, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Users, UsersViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull UsersViewHolder holder, int position, @NonNull Users model) {
@@ -76,8 +76,9 @@ public class UsersActivity extends AppCompatActivity {
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        //directs to the profile screen
                         Intent pIntent = new Intent(UsersActivity.this, Profile.class);
+                        //taking alongside the user id
                         pIntent.putExtra("id", uID);
                         startActivity(pIntent);
 
@@ -96,7 +97,7 @@ public class UsersActivity extends AppCompatActivity {
             }
 
         };
-        usersList.setAdapter(firebaseRecyclerAdapter);
+        uList.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
         //firebaseRecyclerAdapter.stopListening();
     }
@@ -109,8 +110,9 @@ public class UsersActivity extends AppCompatActivity {
             super(itemView);
             view = itemView;
         }
-
+            //setting name
         public void setName(String name){
+            //textview is set with the user_name id from the layout
             TextView userNameView = view.findViewById(R.id.user_name);
             userNameView.setText(name);
         }

@@ -76,10 +76,10 @@ public class Register extends AppCompatActivity {
                             mDB = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
 
                             String devToken = FirebaseInstanceId.getInstance().getToken();
-
+                            //builds a hash map to add values to the child nodes in the database
                             HashMap<String,String> userMap = new HashMap<>();
                             userMap.put("name", username);
-                            userMap.put("status", "Hello");
+                            userMap.put("status", "I'm using Cocoon!");
                             userMap.put("image", "default");
                             userMap.put("thumb_image","default");
                             userMap.put("device_token", devToken);
@@ -89,7 +89,7 @@ public class Register extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()) {
                                         regProgress.dismiss();
-
+                                        //redirects
                                         Intent register_intent = new Intent(Register.this,MainActivity.class);
                                         register_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(register_intent);

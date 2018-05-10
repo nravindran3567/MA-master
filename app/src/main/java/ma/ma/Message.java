@@ -3,7 +3,7 @@ package ma.ma;
 /**
  * Created by Nitharani on 27/04/2018.
  */
-
+//setters and getters
 public class Message {
 
     private String message, type;

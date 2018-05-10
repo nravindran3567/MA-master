@@ -34,9 +34,9 @@ public class FriendFragment extends Fragment {
     private RecyclerView friendlist;
     private DatabaseReference friendDB;
     private DatabaseReference userDB;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth fbAuth;
     private String currentUid;
-    private View mainView;
+    private View mView;
 
 
 
@@ -50,13 +50,13 @@ public class FriendFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         //inflate the layout
-        mainView = inflater.inflate(R.layout.fragment_friend, container, false);
+        mView = inflater.inflate(R.layout.fragment_friend, container, false);
         //inflated fragment requires recyclerview to access the friendsnum
-        friendlist = (RecyclerView) mainView.findViewById(R.id.friendsNum);
-        mAuth = FirebaseAuth.getInstance();
+        friendlist = (RecyclerView) mView.findViewById(R.id.friendsNum);
+        fbAuth = FirebaseAuth.getInstance();
 
         //gets the user id of the current user
-        currentUid = mAuth.getCurrentUser().getUid();
+        currentUid = fbAuth.getCurrentUser().getUid();
         //database reference points to the child called "friends" in the database and gets the current uer id
         friendDB = FirebaseDatabase.getInstance().getReference().child("Friends").child(currentUid);
         userDB = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -72,9 +72,9 @@ public class FriendFragment extends Fragment {
         friendlist.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Inflate the layout for this fragment
-        return mainView;
+        return mView;
     }
-
+//https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md
     @Override
     public void onStart() {
         super.onStart();
@@ -134,7 +134,7 @@ public class FriendFragment extends Fragment {
                                 //alert dialog is created where when the user clicks on another user,
                                 //they will be given two options
 
-                                CharSequence options[] = new CharSequence[]{"Open Profile", "Send message"};
+                                CharSequence options[] = new CharSequence[]{ "Send message"};
 
                                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                 //setting the title for the alert dialog
@@ -146,14 +146,14 @@ public class FriendFragment extends Fragment {
                                     public void onClick(DialogInterface dialog, int op) {
                                        //click each item to direct to a different screen
                                         //return op as the position
-                                        if(op == 0){
-                                            //sends to the profile page
-                                            Intent pIntent = new Intent(getContext(), Profile.class);
-                                            pIntent.putExtra("user_id", lUid);
-                                            startActivity(pIntent);
-                                        }
+//                                        if(op == 0){
+//                                            //sends to the profile page
+//                                            Intent pIntent = new Intent(getContext(), SettingsAct.class);
+//                                            pIntent.putExtra("user_id", lUid);
+//                                            startActivity(pIntent);
+//                                        }
 
-                                        if(op == 1){
+                                        if(op == 0){
 
                                             //sends to the chat page to send a message to the user
 

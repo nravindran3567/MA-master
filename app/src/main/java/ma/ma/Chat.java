@@ -242,7 +242,7 @@ public class Chat extends AppCompatActivity {
             //adding it to the database
 
             Map mMap = new HashMap();
-            mMap.put("messages", message);
+            mMap.put("message", message);
             mMap.put("seen", false);
             mMap.put("type", "text");
             mMap.put("time", ServerValue.TIMESTAMP);
@@ -252,7 +252,7 @@ public class Chat extends AppCompatActivity {
             mUsermap.put(cURef + "/" + push_id, mMap);
             mUsermap.put(chatuRef + "/" + push_id, mMap);
 
-            msg.setText("");
+            msg.setText(" ");
 
             rootRef.updateChildren(mUsermap, new DatabaseReference.CompletionListener() {
                 @Override

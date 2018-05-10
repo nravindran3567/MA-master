@@ -9,23 +9,20 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 
 class SectionsPagerAdapter extends FragmentPagerAdapter{
-    public SectionsPagerAdapter(FragmentManager fm) {
+    public SectionsPagerAdapter(FragmentManager fm)
+    {
         super(fm);
     }
 
     @Override
     public Fragment getItem(int position) {
-
+    //each fragment is instantiated for each tab.
         switch (position){
+//            case 0:
+//                ChatFragment chatsFragment = new ChatFragment();
+//                return chatsFragment;
+
             case 0:
-                ReqFragment requestsFragment = new ReqFragment();
-                return requestsFragment;
-
-            case 1:
-                ChatFragment chatsFragment = new ChatFragment();
-                return chatsFragment;
-
-            case 2:
                 FriendFragment friendsFragment = new FriendFragment();
                 return friendsFragment;
 
@@ -36,16 +33,16 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
     }
 
     @Override
+    //number of tabs
     public int getCount() {
-        return 3;
+        return 1;
     }
+    //naming the tabs using a switch statement
     public CharSequence getPageTitle(int position){
         switch (position){
+//            case 0:
+//                return "Chats";
             case 0:
-                return "Requests";
-            case 1:
-                return "Chats";
-            case 2:
                 return "Friends";
             default:
                 return null;

@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.w3c.dom.Text;
+
 public class Login extends AppCompatActivity {
 
     private EditText emailLogin;
@@ -52,14 +54,19 @@ public class Login extends AppCompatActivity {
                 String email = emailLogin.getEditableText().toString();
                 String password = pwLogin.getEditableText().toString();
 
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+                    Toast.makeText(Login.this, "email or password is incorrect.", Toast.LENGTH_LONG).show();
 
-                if(!TextUtils.isEmpty(email)|| !TextUtils.isEmpty(password)){
+                }
+
+                else if(!TextUtils.isEmpty(email)|| !TextUtils.isEmpty(password)){
                     logProgress.setTitle("Login");
                     logProgress.setMessage("Please wait");
                     logProgress.setCanceledOnTouchOutside(false);
                     logProgress.show();
                     loginUser(email, password);
                 }
+
             }
         });
     }
@@ -87,14 +94,11 @@ public class Login extends AppCompatActivity {
 
                                 }
                             });
-
-
-
                         } else {
                             logProgress.hide();
-                            String task_result = task.getException().getMessage().toString();
+                            String result = task.getException().getMessage().toString();
 
-                            Toast.makeText(Login.this, "Error : " + task_result, Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, "Error : " + result, Toast.LENGTH_LONG).show();
 
                         }
                     }

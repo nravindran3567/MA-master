@@ -8,6 +8,7 @@ package ma.ma;
         import android.widget.Toast;
 
 public class StartAct extends AppCompatActivity {
+    //variables
     private Button reg_btn;
     private Button log_btn;
     @Override

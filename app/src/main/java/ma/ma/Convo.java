@@ -4,6 +4,7 @@ package ma.ma;
  * Created by Nitharani on 28/04/2018.
  */
 
+//setters and getters
 public class Convo {
     public boolean isSeen() {
         return seen;
@@ -28,7 +29,7 @@ public class Convo {
 
     public boolean seen;
     public long timestamp;
-
+//empty constructor
     public Convo(){
 
     }

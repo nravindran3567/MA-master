@@ -25,7 +25,7 @@ public class SettingsAct extends AppCompatActivity {
     private TextView mName;
     private TextView Status;
 
-    private Toolbar mToolbar;
+    private Toolbar tb;
 
 
     @Override
@@ -33,8 +33,8 @@ public class SettingsAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        mToolbar= (Toolbar) findViewById(R.id.register_toolbar);
-        setSupportActionBar(mToolbar);
+        tb= (Toolbar) findViewById(R.id.register_toolbar);
+        setSupportActionBar(tb);
         getSupportActionBar().setTitle("Cocoon");
 
         pic = (CircleImageView) findViewById(R.id.setImage);

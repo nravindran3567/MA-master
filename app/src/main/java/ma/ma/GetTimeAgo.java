@@ -8,6 +8,8 @@ import android.content.Context;
  */
 
 public class GetTimeAgo extends Application {
+
+    //https://stackoverflow.com/questions/13018550/time-since-ago-library-for-android-java
 /*
      * Copyright 2012 Google Inc.
             *
