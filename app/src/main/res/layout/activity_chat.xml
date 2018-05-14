@@ -41,6 +41,8 @@
             android:hint="Type here"
             android:inputType="textPersonName" />
 
+<!--https://material.io/tools/icons/?search=send&icon=send&style=baseline -->
+
         <ImageButton
             android:id="@+id/send"
             android:layout_width="40dp"

@@ -26,24 +26,18 @@ public class Cocoon extends Application {
         //getting the instance of the firebase object
         mAuth= FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
-
-            uDB = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
             //gets the user id of the current user within "users" in the database of firebase
-
+            uDB = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+            //adding value event listener
             uDB.addValueEventListener(new ValueEventListener() {
                 @Override
+                //when the data is changed...
                 public void onDataChange(DataSnapshot dataSnapshot) {
-
+                    //id the datasnapshot is not null
                     if(dataSnapshot != null){
-                        //if this query gets disconnected, then set it to false
+                        //if this query gets disconnected, then set the value to the TIMESTAMP
                         uDB.child("online").onDisconnect().setValue(ServerValue.TIMESTAMP);
-
-
-                        //uDB.child("online").setValue(true);
                     }
-
-
-
                 }
 
                 @Override

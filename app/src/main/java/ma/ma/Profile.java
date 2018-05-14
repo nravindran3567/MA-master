@@ -51,13 +51,12 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        // getting the uID string from useractivity
         final String uID = getIntent().getStringExtra("uID");
-
+        //getting the database reference
         rootRef = FirebaseDatabase.getInstance().getReference();
 
         //instantiating the variables
-
         mUDB = FirebaseDatabase.getInstance().getReference().child("Users").child(uID);
         ReqDatabase = FirebaseDatabase.getInstance().getReference().child("Friend_req");
         friendDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
@@ -84,7 +83,7 @@ public class Profile extends AppCompatActivity {
         mUDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-            //setting profile name from the value in the "name" child
+                //setting profile name from the value in the "name" child
                 String dName = dataSnapshot.child("name").getValue().toString();
                 profileName.setText(dName);
 
@@ -98,10 +97,9 @@ public class Profile extends AppCompatActivity {
                         if(dataSnapshot.hasChild(uID)){
                             //passes request type as a string
                             String req_type = dataSnapshot.child(uID).child("request_type").getValue().toString();
-                                //if the request type is "received"
+                            //if the request type is "received"
                             if(req_type.equals("received")){
                                 //current state is request received
-                                //sendRequest.setEnabled(true);
                                 current_s = "req_received";
                                 //sent button is set as "accept request"
                                 sendRequest.setText("Accept Request");
@@ -113,17 +111,14 @@ public class Profile extends AppCompatActivity {
                                 //if the request type is sent, the current state is "Request sent"
                                 current_s = "req_sent";
                                 //button text is set to "cancel friend request"
-                                sendRequest.setText("Cancel Friend Request ");
+                                sendRequest.setText("Cancel Friend Request");
                                 //decline is set invisible
                                 decline.setVisibility(View.INVISIBLE);
+                                //decline button is set to false
                                 decline.setEnabled(false);
-
                             }
-                                //the dialog box will be dismissed
+                            //the dialog box will be dismissed
                             progressDialog.dismiss();
-
-
-
                         } else{
                             //as it is a single event, get the current user's user id
                             friendDatabase.child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -143,15 +138,12 @@ public class Profile extends AppCompatActivity {
                                 }
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
-
+                                    //dismiss the progress dialog
                                     progressDialog.dismiss();
                                 }
                             });
 
                         }
-
-
-
                     }
 
                     @Override
@@ -171,16 +163,15 @@ public class Profile extends AppCompatActivity {
         sendRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 sendRequest.setEnabled(false);
-
                 if(current_s.equals("not_friends")){
                     //if the current state is "not friends"
                     //creating a database reference
                     DatabaseReference newNotificationref = rootRef.child("notifications").child(uID).push();
                     String newNotificationId = newNotificationref.getKey();
-
+                    //new hashmap created
                     HashMap<String, String> notificationData = new HashMap<>();
+                    //keys and values put in the hashmap
                     notificationData.put("from", currentUser.getUid());
                     notificationData.put("type", "request");
                     //creating a hashmap to store the notifications in the database
@@ -215,7 +206,7 @@ public class Profile extends AppCompatActivity {
 
 
                 //cancel
-                    //if the current state is "request sent"
+                //if the current state is "request sent"
                 if(current_s.equals("req_sent")){
                     //in the database, remove value
                     ReqDatabase.child(currentUser.getUid()).child(uID).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -240,12 +231,12 @@ public class Profile extends AppCompatActivity {
                     });
                 }
 
-                    //Request Received
+                //Request Received
                 //if current state is request received
                 if(current_s.equals("req_received")){
                     //date is stored in the form of a string
-                   final String date = DateFormat.getDateTimeInstance().format(new java.util.Date());
-                   //create a new hashmap
+                    final String date = DateFormat.getDateTimeInstance().format(new java.util.Date());
+                    //create a new hashmap
                     Map friendsMap = new HashMap();
                     //put into the map the date and the user id
                     friendsMap.put("Friends/" + currentUser.getUid() + "/" + uID + "/date", date);
@@ -316,7 +307,7 @@ public class Profile extends AppCompatActivity {
 
 
                             }
-
+                            //reflects the current state
                             sendRequest.setEnabled(true);
 
                         }

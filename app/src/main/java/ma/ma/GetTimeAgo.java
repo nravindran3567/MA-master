@@ -8,7 +8,7 @@ import android.content.Context;
  */
 
 public class GetTimeAgo extends Application {
-
+    //code from:
     //https://stackoverflow.com/questions/13018550/time-since-ago-library-for-android-java
 /*
      * Copyright 2012 Google Inc.
@@ -37,14 +37,16 @@ public class GetTimeAgo extends Application {
             // if timestamp given in seconds, convert to millis
             time *= 1000;
         }
-
+        //current time saved in the long variable now
         long now = System.currentTimeMillis();
+        // if time is greater than now and time is less than or equal to 0 then return null
         if (time > now || time <= 0) {
             return null;
         }
 
         // TODO: localize
         final long diff = now - time;
+        // the following if statements determine what text should be displayed according to the time that they were online
         if (diff < MINUTE_MILLIS) {
             return "just now";
         } else if (diff < 2 * MINUTE_MILLIS) {

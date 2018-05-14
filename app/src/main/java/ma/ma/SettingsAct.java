@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SettingsAct extends AppCompatActivity {
-
+    //initialising variables
     private DatabaseReference mUDB;
     private FirebaseUser currentUser;
 
@@ -32,34 +32,36 @@ public class SettingsAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        tb= (Toolbar) findViewById(R.id.register_toolbar);
+        //storing toolbar in the toolbar variable
+        tb = (Toolbar) findViewById(R.id.register_toolbar);
+        //setting up toolbar as action bar
         setSupportActionBar(tb);
+        //setting the title for the action bar
         getSupportActionBar().setTitle("Cocoon");
 
         pic = (CircleImageView) findViewById(R.id.setImage);
         mName = (TextView) findViewById(R.id.set_name);
         Status= (TextView) findViewById(R.id.status);
 
-
+        //getting the current user and saving it to the FirebaseUser variable
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
+        //Storing the user ID
         String currentUID = currentUser.getUid();
-
+        //getting the database reference for the current user
         mUDB = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUID);
-
+        //adding a value event listener
         mUDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-               // Toast.makeText(SettingsAct.this, dataSnapshot.toString(), Toast.LENGTH_LONG).show();
-
-               String name = dataSnapshot.child("name").getValue().toString();
-               String image = dataSnapshot.child("image").getValue().toString();
-               String status = dataSnapshot.child("status").getValue().toString();
-               String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
-
-               mName.setText(name);
-               Status.setText(status);
+                //saving the data from the snapshot into the variables
+                String name = dataSnapshot.child("name").getValue().toString();
+                String image = dataSnapshot.child("image").getValue().toString();
+                String status = dataSnapshot.child("status").getValue().toString();
+                String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
+                //setting the name as name variable
+                mName.setText(name);
+                //setting the status as the status variable
+                Status.setText(status);
 
 
             }

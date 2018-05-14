@@ -20,37 +20,33 @@ import com.google.firebase.database.ServerValue;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth fBAuth;
-    private Button goback;
     private Toolbar tb;
-
     private ViewPager vPager;
     private SectionsPagerAdapter mSPA;
     private TabLayout tLayout;
-
     private DatabaseReference uRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //getting the firebase auth instance
         fBAuth = FirebaseAuth.getInstance();
-        tb= (Toolbar) findViewById(R.id.main_app_bar);
+        // storing the toolbar in the toolbar variable
+        tb = (Toolbar) findViewById(R.id.main_app_bar);
         setSupportActionBar(tb);
         //setting the toolbar title to Cocoon
         getSupportActionBar().setTitle("Cocoon");
-
+        //if the there is a user available
         if(fBAuth.getCurrentUser() !=null){
-
+            //get the user id
             uRef = FirebaseDatabase.getInstance().getReference().child("Users").child(fBAuth.getCurrentUser().getUid());
-
         }
-
-
-
+        // storing the viewpager in the viewpager variable
         vPager=(ViewPager) findViewById(R.id.tabPager);
-        mSPA= new SectionsPagerAdapter(getSupportFragmentManager());
 
+        mSPA= new SectionsPagerAdapter(getSupportFragmentManager());
+        //setting adapter to the viewpager
         vPager.setAdapter(mSPA);
         tLayout = (TabLayout) findViewById(R.id.main_tabs);
         tLayout.setupWithViewPager(vPager);
@@ -62,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = fBAuth.getCurrentUser();
+        //if the current user is not null
         if(currentUser==null){
+            //go to start activity
             Intent startIntent = new Intent(MainActivity.this,StartAct.class);
             startActivity(startIntent);
             finish();
@@ -77,14 +75,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         //gets the current user
         FirebaseUser currentUser = fBAuth.getCurrentUser();
-
         if(currentUser != null){
             //set with a timestamp if they are not online
             uRef.child("online").setValue(ServerValue.TIMESTAMP);
-
         }
-
-
     }
 
     @Override
@@ -109,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
             fBAuth.getInstance().signOut();
         }
         // takes the user to account settings from main activity
-
         if(item.getItemId() == R.id.AccountSettings){
             Intent setIntent = new Intent(MainActivity.this, SettingsAct.class);
             startActivity(setIntent);
@@ -118,10 +111,7 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.AllUsers){
             Intent uIntent = new Intent(MainActivity.this, UsersActivity.class);
             startActivity(uIntent);
-
         }
-
         return true;
-
     }
 }

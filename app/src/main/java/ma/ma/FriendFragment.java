@@ -60,7 +60,7 @@ public class FriendFragment extends Fragment {
         //database reference points to the child called "friends" in the database and gets the current uer id
         friendDB = FirebaseDatabase.getInstance().getReference().child("Friends").child(currentUid);
         userDB = FirebaseDatabase.getInstance().getReference().child("Users");
-        //prevents user being loaded repeeatedly (offline feature)
+        //prevents user being loaded repeatedly (offline feature)
         friendDB.keepSynced(true);
         //database reference points to the users child
         friendDB = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -70,46 +70,49 @@ public class FriendFragment extends Fragment {
         friendlist.setHasFixedSize(true);
         //sets the layoutmanager to new layout manager
         friendlist.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // Inflate the layout for this fragment
+        //return mView View object
         return mView;
     }
-//https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md
+    //https://github.com/firebase/FirebaseUI-Android/blob/master/database/README.md
     @Override
     public void onStart() {
         super.onStart();
-
+        // get the database reference for the child "Users",limit it to 50 and store it in a query variable
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("Users")
                 .limitToLast(50);
-
+        //configuring firebase adapter with firebase recycler options
         FirebaseRecyclerOptions<Friend> options =
                 new FirebaseRecyclerOptions.Builder<Friend>()
                         .setQuery(query, Friend.class)
                         .build();
 
-
+        //new firebase recycler adapter creater
         final FirebaseRecyclerAdapter<Friend, FriendHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Friend, FriendHolder>(options) {
 
             @NonNull
             @Override
-            public FriendHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+            public FriendHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                //inflates the users_s_layout
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.users_s_layout,parent,false);
+                //return friend view holder
                 return new FriendHolder(view);
 
             }
 
             @Override
             protected void onBindViewHolder(@NonNull final FriendHolder holder, int position, @NonNull Friend model) {
+                //setting the data of the holder by getting the date of the model
                 holder.setDate(model.getDate());
+                //getting the key for the reference with the value of "position"
                 final String lUid = getRef(position).getKey();
-
+                //adding value event listener
                 userDB.child(lUid).addValueEventListener(new ValueEventListener() {
                     @Override
-                    //gets the name name from the users in the database
+                    //gets the name from the users in the database
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //retrieving user name and whether they are online from the database
                         final String userName = dataSnapshot.child("name").getValue().toString();
@@ -118,11 +121,11 @@ public class FriendFragment extends Fragment {
                         if(dataSnapshot.hasChild("online")) {
                             //retrieve their value and store it in the string
                             String userOnline = dataSnapshot.child("online").getValue().toString();
+                            //set the user online on the holder
                             holder.setuOnline(userOnline);
-
                         }
+                        //setting the holder name as the userName
                         holder.setName(userName);
-                       // holder.setUserImage(getContext());
 
 
 
@@ -144,19 +147,10 @@ public class FriendFragment extends Fragment {
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int op) {
-                                       //click each item to direct to a different screen
+                                        //click each item to direct to a different screen
                                         //return op as the position
-//                                        if(op == 0){
-//                                            //sends to the profile page
-//                                            Intent pIntent = new Intent(getContext(), SettingsAct.class);
-//                                            pIntent.putExtra("user_id", lUid);
-//                                            startActivity(pIntent);
-//                                        }
-
                                         if(op == 0){
-
                                             //sends to the chat page to send a message to the user
-
                                             Intent cIntent = new Intent(getContext(), Chat.class);
                                             cIntent.putExtra("user_id", lUid);
                                             cIntent.putExtra("user_name", userName);
@@ -185,7 +179,7 @@ public class FriendFragment extends Fragment {
         firebaseRecyclerAdapter.startListening();
     }
     public static class FriendHolder extends RecyclerView.ViewHolder {
-
+        //creating new view object mview
         View mView;
 
         public FriendHolder(View itemView) {
@@ -200,7 +194,7 @@ public class FriendFragment extends Fragment {
             TextView userStatusView = (TextView) itemView.findViewById(R.id.user_status);
             userStatusView.setText(date);
         }
-            //setting the name
+        //setting the name
         public void setName(String name) {
             //adds reference to the textview
             TextView userNameView = (TextView) itemView.findViewById(R.id.user_name);
@@ -209,20 +203,20 @@ public class FriendFragment extends Fragment {
         }
         //if the user is online, the image of a green dot will appear next to their name
         public void setuOnline(String usersOnline) {
-           ImageView userOnline = (ImageView) itemView.findViewById(R.id.online);
-
+            ImageView userOnline = (ImageView) itemView.findViewById(R.id.online);
+            //if the user is online
             if (usersOnline.equals("true")) {
-
+                //set the userOnline visibility as visible
                 userOnline.setVisibility(View.VISIBLE);
-
-            } else { //else it will be set invisible
-
-              userOnline.setVisibility(View.INVISIBLE);
+                //else it will be set invisible
+            } else {
+                //set the userOnline visibility as invisible
+                userOnline.setVisibility(View.INVISIBLE);
 
             }
         }
     }
-    }
+}
 
 
 

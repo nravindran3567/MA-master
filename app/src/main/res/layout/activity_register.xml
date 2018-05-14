@@ -31,7 +31,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Enter Code"
+        android:hint="Enter Code*"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,5 +75,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.547" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*Enter any numbers of your choice"
+        tools:layout_editor_absoluteX="75dp"
+        tools:layout_editor_absoluteY="517dp" />
 
 </android.support.constraint.ConstraintLayout>

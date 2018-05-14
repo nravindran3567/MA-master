@@ -1,0 +1,4 @@
+#Fri May 11 14:54:35 BST 2018
+base.0=/Users/Nitharani/Downloads/MA-master/app/build/intermediates/transforms/dexMerger/debug/40
+path.0=classes.dex
+renamed.0=classes.dex

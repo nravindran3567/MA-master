@@ -37,33 +37,41 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        //instantiating firebase authentication
         mAuth = FirebaseAuth.getInstance();
-
+        //creating a new progress dialog
         logProgress= new ProgressDialog(this);
-
+       // points to the child "users" in the database and stores it in the string
         userDB = FirebaseDatabase.getInstance().getReference().child("Users");
-
+        //initialising the variables
         emailLogin= (EditText) findViewById(R.id.log_email);
         pwLogin = (EditText) findViewById(R.id.log_password);
         login = (Button) findViewById(R.id.login);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+                //getting the text of the  email and password and storing them in a string variable
                 String email = emailLogin.getEditableText().toString();
                 String password = pwLogin.getEditableText().toString();
-
+                //if email or password is empty...
                 if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+                    //create a toast to show error
                     Toast.makeText(Login.this, "email or password is incorrect.", Toast.LENGTH_LONG).show();
 
                 }
-
+                //else display the progress log if the email or password is not empty
                 else if(!TextUtils.isEmpty(email)|| !TextUtils.isEmpty(password)){
+                    //setting the title of the progress log
                     logProgress.setTitle("Login");
+                    //the body of the progress log
                     logProgress.setMessage("Please wait");
+                    //if user touches outside the dialog box, it will not dismiss the progress log
                     logProgress.setCanceledOnTouchOutside(false);
+                    //shows the progress dialog box
                     logProgress.show();
+                    //calls the loginUser function
                     loginUser(email, password);
                 }
 
@@ -72,21 +80,24 @@ public class Login extends AppCompatActivity {
     }
 
     private void loginUser(String email, String password) {
-
+    //signInWithEmailAndPassword function to sign the user in
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        //if the task is successful,
                         if (task.isSuccessful()) {
-
+                            //it will dismiss the progress dialog
                             logProgress.dismiss();
-
+                            //the current user's id is stored in a string
                             String currentUserID = mAuth.getCurrentUser().getUid();
+                            //getting the token and storing it
                             String devToken = FirebaseInstanceId.getInstance().getToken();
+                            //sets the devToken value within the "device_token"child of the current user id
                             userDB.child(currentUserID).child("device_token").setValue(devToken).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-
+                                //intent method takes the user from the login page to the main screen
                                     Intent mIntent = new Intent(Login.this, MainActivity.class);
                                     mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(mIntent);
@@ -95,9 +106,12 @@ public class Login extends AppCompatActivity {
                                 }
                             });
                         } else {
+                            //if the user fails to log in,
+                            //hide the progress log
+                            //stores the error message in a string
                             logProgress.hide();
                             String result = task.getException().getMessage().toString();
-
+                            //and displays it in a toast
                             Toast.makeText(Login.this, "Error : " + result, Toast.LENGTH_LONG).show();
 
                         }

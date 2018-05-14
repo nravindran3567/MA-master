@@ -4,10 +4,11 @@ package ma.ma;
  * Created by Nitharani on 25/04/2018.
  */
 
+//getters and setters
 public class Friend {
     public String date;
 
-    //created an empty class
+    //constructor
     public Friend(){
 
     }

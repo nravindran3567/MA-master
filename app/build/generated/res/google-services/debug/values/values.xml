@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">936265224236-t4efgf6hj881iav702mcq2k33ve84jan.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://maid-7db82.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">936265224236</string>
+    <string name="google_api_key" translatable="false">AIzaSyDx0GVhh9O_BHiIktDQj4fhpWPXwe1XjJA</string>
+    <string name="google_app_id" translatable="false">1:936265224236:android:cf9c4326f6353089</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDx0GVhh9O_BHiIktDQj4fhpWPXwe1XjJA</string>
+    <string name="google_storage_bucket" translatable="false">maid-7db82.appspot.com</string>
+    <string name="project_id" translatable="false">maid-7db82</string>
+</resources>

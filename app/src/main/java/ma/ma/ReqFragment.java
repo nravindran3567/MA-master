@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  */
 public class ReqFragment extends Fragment {
 
-
+//NOT USED!!!!
     public ReqFragment() {
         // Required empty public constructor
     }
@@ -26,4 +26,7 @@ public class ReqFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_req2, container, false);
     }
 
+
+
+    //NOT USED!!!!
 }

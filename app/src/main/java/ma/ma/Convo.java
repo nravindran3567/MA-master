@@ -29,7 +29,7 @@ public class Convo {
 
     public boolean seen;
     public long timestamp;
-//empty constructor
+//constructor
     public Convo(){
 
     }
